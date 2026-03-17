@@ -55,18 +55,25 @@ Add to your VS Code user `settings.json`:
 "dotfiles.targetPath": "~/.dotfiles"
 ```
 
-### 2. Git Identity via Container Environment
+### 2. Git Identity via Host Environment
 
-`install.sh` reads git identity from environment variables — set them in your `devcontainer.json`:
+Set your identity once in `~/.zshenv` on your Mac (not `~/.zshrc` — VS Code reads the environment without a shell session):
+
+```bash
+export GIT_USER_NAME="Your Name"
+export GIT_USER_EMAIL="you@example.com"
+```
+
+Then reference them in each project's `devcontainer.json` using `${localEnv:}`:
 
 ```json
 "containerEnv": {
-    "GIT_USER_NAME": "Your Name",
-    "GIT_USER_EMAIL": "you@example.com"
+    "GIT_USER_NAME": "${localEnv:GIT_USER_NAME}",
+    "GIT_USER_EMAIL": "${localEnv:GIT_USER_EMAIL}"
 }
 ```
 
-Without these, git commits will have no author. A warning is shown at install time if they're missing.
+The values are defined once on the host — `devcontainer.json` never contains personal data. A warning is shown at install time if the variables aren't set.
 
 ### 3. Rebuild the Container
 
