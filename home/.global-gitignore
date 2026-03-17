@@ -1,4 +1,4 @@
-# Mac OS X hidden files
+# Mac OS X
 .DS_Store
 .DS_Store?
 ._*
@@ -12,9 +12,6 @@ Thumbs.db
 
 # PhpStorm
 .idea
-
-# vs code
-.vscode
 
 # Sublime Text
 *.sublime-project

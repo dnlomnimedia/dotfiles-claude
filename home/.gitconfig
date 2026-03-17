@@ -1,18 +1,7 @@
 [core]
-	excludesfile = /Users/freek/.global-gitignore
+	excludesfile = ~/.global-gitignore
 	autocrlf = false
 	pager = delta
-
-[user]
-	name = Freek Van der Herten
-	email = freek@spatie.be
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOd4zgKsJm1yDquP2+Ca7nZqUiJ2aZNwxJHP9gg3teWQ
-
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
 
 [fetch]
 	prune = true
@@ -22,15 +11,6 @@
 
 [init]
 	defaultBranch = main
-
-[gpg]
-	format = ssh
-
-[gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
-
-[commit]
-	gpgsign = true
 
 [push]
 	autoSetupRemote = true

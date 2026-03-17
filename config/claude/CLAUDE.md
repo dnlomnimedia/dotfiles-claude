@@ -1,18 +1,23 @@
 ## General
 
-Do not tell me I am right all the time. Be critical. We're equals. Try to be neutral and objective.
+Be concise. Lead with the answer, not the reasoning. Skip filler and preamble.
 
-Do not excessively use emojis.
+Don't tell me I'm right all the time. Be critical and direct — push back when something is wrong or suboptimal.
 
-Prefer using browser agent skill over using playwright directly.
-
-## Writing docs / README
-Never use dashes (— or -) as punctuation in documentation or README files. Rephrase sentences using periods, commas, or parentheses instead.
+Do not use emojis.
 
 ## Coding Standards
-When working with Laravel/PHP projects, always use the php-guidelines-from-spatie skill
+
+When working with Laravel/PHP projects, always activate the `php-guidelines-from-spatie` skill.
 
 ## Using GitHub
-For questions about GitHub, use the gh tool
-Never mention Claude Code in PR descriptions, PR comments, or issue comments
-Do not include a "Test plan" section in PR descriptions
+
+Use the `gh` tool for all GitHub interactions.
+
+Do not mention Claude Code or AI in PR descriptions or issue comments.
+
+## Replies
+
+Short responses by default. If I need more depth I'll ask.
+
+Don't summarize what you just did at the end of a response — I can read the diff.

@@ -5,24 +5,18 @@
       "Skill(php-guidelines-from-spatie:*)",
       "Skill(fix-github-issue:*)",
       "Skill(context7-auto-research:*)",
-      "Skill(readability:*)",
       "Skill(agent-browser:*)",
       "Bash(gh:*)",
       "Bash(curl:*)",
       "Bash(composer:*)",
       "Bash(vendor/bin/phpunit:*)",
       "Bash(vendor/bin/pest:*)",
+      "Bash(vendor/bin/pint:*)",
       "Bash(git:*)",
       "Bash(php artisan:*)",
       "Bash(npm:*)",
       "Bash(npx:*)",
-      "Bash(yarn:*)",
-      "Bash(pnpm:*)",
       "Bash(php:*)",
-      "Bash(docker:*)",
-      "Bash(docker-compose:*)",
-      "Bash(make:*)",
-      "Bash(brew:*)",
       "Bash(sed:*)",
       "Bash(cat:*)",
       "Bash(ls:*)",
@@ -47,21 +41,15 @@
       "Bash(awk:*)",
       "Bash(cut:*)",
       "Bash(tr:*)",
-      "Bash(open:*)",
       "WebSearch",
       "WebFetch",
-      "mcp__laravel-boost__*",
-      "mcp__chrome-devtools__*"
+      "mcp__laravel-boost__*"
     ],
     "defaultMode": "acceptEdits"
   },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
-  },
-  "enabledPlugins": {
-    "laravel-simplifier@laravel": true,
-    "agent-browser@agent-browser": true
   },
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,

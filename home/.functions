@@ -1,4 +1,4 @@
-# Run tests
+# Run Pest or PHPUnit (auto-detects)
 function p() {
    if [ -f vendor/bin/pest ]; then
       vendor/bin/pest "$@"
@@ -7,6 +7,7 @@ function p() {
    fi
 }
 
+# Run tests filtered by name
 function pf() {
    if [ -f vendor/bin/pest ]; then
       vendor/bin/pest --filter "$@"
@@ -20,23 +21,24 @@ function mkd() {
    mkdir -p "$@" && cd "$@"
 }
 
-# All the dig info
+# All DNS info for a domain
 function digga() {
-	dig +nocmd "$1" any +multiline +noall +answer
+    dig +nocmd "$1" any +multiline +noall +answer
 }
 
+# Remove a host from known_hosts
 function removehost() {
    ssh-keygen -R "$1"
 }
 
-#  Commit everything
+# Stage everything and commit — generates message via Claude if none given
 function commit() {
   commitMessage="$*"
 
   git add .
 
   if [ "$commitMessage" = "" ]; then
-     # Start spinner in background (suppress job control messages)
+     # Start spinner in background
      {
        spinner="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
        while true; do
@@ -48,7 +50,6 @@ function commit() {
      } &!
      spinner_pid=$!
 
-     # Cleanup function for interrupt
      cleanup() {
        { kill $spinner_pid; wait $spinner_pid; } 2>/dev/null
        printf "\r\033[K"
@@ -57,11 +58,9 @@ function commit() {
      }
      trap cleanup INT
 
-     # Get diff with size limit, include stat summary for context
      diff_input=$(echo "=== Summary ===" && git diff --cached --stat && echo -e "\n=== Diff (truncated if large) ===" && git diff --cached | head -c 50000)
      commitMessage=$(echo "$diff_input" | claude -p "Write a single-line commit message for this diff. Output ONLY the message, no quotes, no explanation, no markdown.")
 
-     # Stop spinner and clear line
      trap - INT
      { kill $spinner_pid; wait $spinner_pid; } 2>/dev/null
      printf "\r\033[K"
@@ -73,19 +72,21 @@ function commit() {
   eval "git commit -a -m '${commitMessage}'"
 }
 
+# MySQL database management — connects to DB_HOST (defaults to 'db' for devcontainer)
 function db() {
+    local host="${DB_HOST:-db}"
     case "$1" in
         refresh)
-            mysql -uroot -e "drop database $2; create database $2"
+            mysql -uroot -h "$host" -e "drop database $2; create database $2"
             ;;
         create)
-            mysql -uroot -e "create database $2"
+            mysql -uroot -h "$host" -e "create database $2"
             ;;
         drop)
-            mysql -uroot -e "drop database $2"
+            mysql -uroot -h "$host" -e "drop database $2"
             ;;
         list)
-            mysql -uroot -e "show databases" | sed 's/[|[:space:]]//g'
+            mysql -uroot -h "$host" -e "show databases" | sed 's/[|[:space:]]//g'
             ;;
         *)
             echo "Usage: db {refresh|create|drop|list} [database_name]"
@@ -94,6 +95,7 @@ function db() {
     esac
 }
 
+# Run Laravel scheduler in a loop (alternative to composer dev)
 function scheduler() {
    while :; do
       php artisan schedule:run
@@ -102,14 +104,17 @@ function scheduler() {
    done
 }
 
+# Claude Code with all permissions skipped
 function claude-yolo() {
   claude --dangerously-skip-permissions "$@"
 }
 
+# Delete local branches whose remote tracking branch is gone
 function git-prune-local() {
   git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
 }
 
+# Clone a GitHub repo via gh
 function clone() {
   gh repo clone "$1" "${@:2}"
 }

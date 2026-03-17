@@ -1,27 +1,29 @@
-# Make vim the default editor
+# Default editor
 export EDITOR="vim"
 
-# Larger bash history (allow 32³ entries; default is 500)
+# Larger history
 export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL=ignoredups
-# Make some commands not show up in history
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
-# And include the parameter for ZSH
 export HISTORY_IGNORE="(ls|cd|cd -|pwd|exit|date|* --help)"
 
-# Prefer US English and use UTF-8
+# Locale
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
-# Highlight section titles in manual pages (bold yellow)
+# Coloured man pages
 export LESS_TERMCAP_md=$'\e[1;33m'
 export LESS_TERMCAP_me=$'\e[0m'
 
-# Don't clear the screen after quitting a manual page
+# Don't clear screen after quitting man
 export MANPAGER="less -X"
 
-# Grep color is now handled by aliases (GREP_OPTIONS is deprecated)
+# Xdebug — enable per-session with: export XDEBUG_MODE=debug
+export XDEBUG_CONFIG="idekey=VSCODE"
 
-# Do not auto update brew
-export HOMEBREW_NO_AUTO_UPDATE=1
+# Composer global binaries
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+
+# Local binaries
+export PATH="$HOME/.local/bin:$PATH"

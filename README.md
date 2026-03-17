@@ -1,25 +1,8 @@
-# My dotfiles
+# dotfiles-claude
 
-![Terminal](images/terminal.png)
+Shell config, Claude Code settings, skills, and agents — optimized for Laravel/PHP/Vue development inside VS Code devcontainers.
 
-Personal dotfiles with modern shell tooling, optimized for Laravel/PHP development. Features fast startup times, smart directory navigation, and modern CLI tools.
-
-## Key Features
-
-- **Custom Agnoster Theme** - Clean powerline prompt with no branch symbols, `•` for changes
-- **Version-Controlled Skills & Agents** - All Claude Code skills and agents synced via dotfiles
-- **Fast Tools** - fnm, zoxide, ripgrep, bat, eza (all Rust-based for speed)
-- **One Command Install** - `bin/install` sets up everything including Claude Code
-
----
-
-## Quick Start
-
-```bash
-git clone git@github.com:freekmurze/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles
-bin/install
-```
+Forked from [freekmurze/dotfiles](https://github.com/freekmurze/dotfiles), stripped of macOS-specific tooling, and adapted for Linux devcontainer use.
 
 ---
 
@@ -27,327 +10,175 @@ bin/install
 
 ### Shell & Prompt
 
-- **Oh My Zsh** - Framework for managing Zsh configuration (with agnoster theme by default)
-- **zoxide** - Smart directory jumping based on frecency
-- **fzf** - Fuzzy finder for files and history
-- **direnv** - Automatic environment variables per directory
+- **Oh My Zsh** with custom Agnoster theme (powerline prompt, `•` for unstaged changes)
+- **zoxide** — smart `cd` with frecency-based directory jumping
+- **fzf** — fuzzy finder for files and command history (`Ctrl+R`, `Ctrl+T`, `Alt+C`)
+- **zsh-autosuggestions** — fish-style command suggestions
 
 ### Modern CLI Tools
 
-- **fnm** - Fast Node.js version manager
-- **bat** - Cat with syntax highlighting
-- **eza** - Modern ls replacement with icons
-- **ripgrep** - Fast grep alternative
-- **fd** - Fast find alternative
-- **git-delta** - Better git diffs
-- **jq** - JSON processor and formatter
-- **yq** - YAML processor and formatter
-- **bottom** - Modern system monitor
+- **bat** — `cat` with syntax highlighting (aliased as `cat`)
+- **eza** — modern `ls` with git status and tree view
+- **ripgrep** — fast grep, respects `.gitignore`
+- **git-delta** — side-by-side diffs with syntax highlighting
+- **jq** — JSON processor
 
-### Development Tools
+> These are all installed in the base devcontainer image (`laravel-devcontainer`). The dotfiles just configure them.
 
-- **PHP** - Latest version via Homebrew
-- **Composer** - Dependency manager via Homebrew
-- **Node.js** - LTS version managed via fnm
-- **Laravel Valet** - Local development server
-- **MySQL** - Database with auto-start
+### Claude Code
 
-### QuickLook Plugins
-
-Instant file previews in Finder: code files, markdown, JSON, CSV, patches, and archives.
+- `CLAUDE.md` — global coding guidelines loaded every session
+- `settings.json` — pre-approved permissions, `acceptEdits` mode, thinking enabled
+- `agents/` — version-controlled custom agents (laravel-feature-builder, etc.)
+- `skills/` — version-controlled skills (php-guidelines-from-spatie, ray-skill, etc.)
+- `statusline.sh` — custom status line script
 
 ---
 
 ## How It Works
 
-### Symlinked Files
+The VS Code dotfiles feature clones this repo to `~/.dotfiles` inside the container and runs `install.sh` automatically on container creation.
 
-The installation creates symlinks from your home directory to the dotfiles repository. This allows you to version control your configuration while keeping files in their expected locations.
-
-| Symlink Location | Points To | Purpose |
-|-----------------|-----------|---------|
-| `~/.zshrc` | `~/.dotfiles/home/.zshrc` | Main Zsh configuration (Oh My Zsh with custom agnoster theme) |
-| `~/.gitconfig` | `~/.dotfiles/home/.gitconfig` | Git configuration with delta diff viewer |
-| `~/.global-gitignore` | `~/.dotfiles/home/.global-gitignore` | Global Git ignore patterns |
-| `~/.vimrc` | `~/.dotfiles/home/.vimrc` | Vim configuration |
-| `~/.vim/` | `~/.dotfiles/home/.vim/` | Vim runtime files |
-| `~/.mackup.cfg` | `~/.dotfiles/macos/.mackup.cfg` | Mackup backup configuration |
-| `~/.claude/skills` | `~/.dotfiles/config/claude/skills/` | All Claude Code skills (version-controlled) |
-| `~/.claude/agents` | `~/.dotfiles/config/claude/agents/` | All Claude Code agents (version-controlled) |
-| `~/.claude/CLAUDE.md` | `~/.dotfiles/config/claude/CLAUDE.md` | Claude Code configuration |
-| `~/.claude/laravel-php-guidelines.md` | `~/.dotfiles/config/claude/laravel-php-guidelines.md` | Laravel coding standards |
-| `~/.claude/settings.json` | `~/.dotfiles/config/claude/settings.json` | Claude Code settings |
-| `~/.config/zed/settings.json` | `~/.dotfiles/config/zed/settings.json` | Zed editor settings |
-| `~/.config/zed/keymap.json` | `~/.dotfiles/config/zed/keymap.json` | Zed custom keybindings |
-| `~/.config/ghostty/config` | `~/.dotfiles/config/ghostty/config` | Ghostty terminal settings |
-
-To manually symlink the Zed configuration (if not using `bin/install`):
-
-```bash
-mkdir -p ~/.config/zed
-ln -sf ~/.dotfiles/config/zed/settings.json ~/.config/zed/settings.json
-ln -sf ~/.dotfiles/config/zed/keymap.json ~/.config/zed/keymap.json
-```
-
-### Sourced Files
-
-These files are loaded by `.zshrc` but remain in the dotfiles directory:
-
-- `home/.aliases` - Shell command aliases
-- `home/.functions` - Custom shell functions
-- `home/.exports` - Environment variables
-
-### Custom Agnoster Theme
-
-The default configuration uses a customized agnoster theme stored in `oh-my-zsh-custom/themes/agnoster.zsh-theme`:
-
-**Customizations:**
-- No git branch symbol (cleaner look)
-- Uses `•` for unstaged changes instead of `±`
-- Powerline arrows for segment separators
-- Requires a font with powerline glyphs
-
-**Git Status Symbols:**
-- `✚` - Staged changes (files added with `git add`)
-- `•` - Unstaged changes (modified files not yet staged)
-- Yellow background - Uncommitted changes
-- Green background - Clean working directory
+`install.sh` symlinks shell config files from `~/.dotfiles/home/` to `~/` and copies Claude Code config to `~/.claude/`.
 
 ---
 
-## Daily Usage
+## Setup
 
-### Smart Navigation
+### 1. VS Code User Settings
 
-```bash
-z dotfiles          # Jump to frequently used directories
-zi                  # Interactive directory picker
-Ctrl+R              # Fuzzy search command history
-Ctrl+T              # Fuzzy find files
-Alt+C               # Fuzzy change directory
+Add to your VS Code user `settings.json`:
+
+```json
+"dotfiles.repository": "https://github.com/dnlomnimedia/dotfiles-claude",
+"dotfiles.installCommand": "install.sh",
+"dotfiles.targetPath": "~/.dotfiles"
 ```
 
-### Laravel/PHP Shortcuts
+### 2. Git Identity via Container Environment
 
-```bash
-a                   # php artisan
-p                   # Run Pest/PHPUnit tests
-c                   # composer
-mfs                 # php artisan migrate:fresh --seed
-nah                 # git reset --hard; git clean -df
+`install.sh` reads git identity from environment variables — set them in your `devcontainer.json`:
+
+```json
+"containerEnv": {
+    "GIT_USER_NAME": "Your Name",
+    "GIT_USER_EMAIL": "you@example.com"
+}
 ```
 
-### Data Processing
+Without these, git commits will have no author. A warning is shown at install time if they're missing.
 
-```bash
-# JSON processing with jq
-curl api.github.com/users/freekmurze | jq
-cat composer.json | jq '.require'
-php artisan tinker --execute="echo json_encode(User::first());" | jq
+### 3. Rebuild the Container
 
-# YAML processing with yq
-yq '.jobs' .github/workflows/ci.yml
-yq -o json docker-compose.yml
-
-# System monitoring
-btm                 # Modern system monitor (aliased from top/htop)
-```
-
-### Maintenance Commands
-
-```bash
-bin/update          # Update all packages and tools
-```
+The dotfiles install runs automatically on the next `Rebuild Container`. No manual steps needed after that.
 
 ---
 
-## Version Management
+## What Gets Symlinked
 
-### Node.js (via fnm)
+| File | Source |
+|------|--------|
+| `~/.zshrc` | `home/.zshrc` |
+| `~/.aliases` | `home/.aliases` |
+| `~/.functions` | `home/.functions` |
+| `~/.exports` | `home/.exports` |
+| `~/.gitconfig` | `home/.gitconfig` |
+| `~/.global-gitignore` | `home/.global-gitignore` |
+| `~/.vimrc` | `home/.vimrc` |
+| `~/.claude/CLAUDE.md` | `config/claude/CLAUDE.md` |
+| `~/.claude/agents/*.md` | `config/claude/agents/` |
+| `~/.claude/skills/*/` | `config/claude/skills/` |
 
-```bash
-fnm install --lts     # Install latest LTS
-fnm use lts-latest    # Use latest LTS
-fnm install 20        # Install specific version
-fnm use 20            # Switch to specific version
-fnm list              # Show installed versions
-```
+`settings.json` is only written if it doesn't already exist (preserves any session-specific settings).
 
-### PHP & Composer (via Homebrew)
-
-```bash
-brew upgrade php      # Update PHP to latest
-brew upgrade composer # Update Composer
-```
-
----
-
-## Package Management
-
-All Homebrew packages are declared in `config/Brewfile`. To add a new tool:
-
-```bash
-echo 'brew "neovim"' >> ~/.dotfiles/config/Brewfile
-brew bundle --file=~/.dotfiles/config/Brewfile
-```
-
-**Complete package list:**
-
-- **Core**: node, php, composer, pkg-config, wget, httpie, ncdu, hub, ack, doctl, 1password-cli, git-secret, imagemagick, mysql, yarn, ghostscript, mackup
-- **Modern CLI**: zoxide, bat, eza, ripgrep, fd, git-delta, fnm, fzf, direnv, jq, yq, bottom, zsh-autosuggestions
-- **QuickLook**: qlcolorcode, qlstephen, qlmarkdown, quicklook-json, qlprettypatch, quicklook-csv, betterzip, suspicious-package
-- **PHP Extensions**: imagick, memcached, xdebug, redis
-- **Global npm**: agent-browser
-- **Global Composer**: laravel/envoy, spatie/phpunit-watcher, laravel/valet
+`statusline.sh` is copied (not symlinked) so it can be made executable without touching the repo.
 
 ---
 
-## Claude Code Integration
+## Local Overrides
 
-### Quick Install (Standalone)
-
-Install just Claude Code without the full dotfiles:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/freekmurze/dotfiles/main/bin/install-claude-code | bash
-```
-
-### What's Included
-
-- **Claude Code CLI** - Installed via Homebrew
-- **Custom configuration** - CLAUDE.md with coding guidelines, laravel-php-guidelines.md
-- **Version-controlled skills** - Entire `~/.claude/skills` directory symlinked to dotfiles
-- **Version-controlled agents** - Entire `~/.claude/agents` directory symlinked to dotfiles
-
-### Skills (Version Controlled)
-
-All skills are stored in `config/claude/skills/` and version-controlled with your dotfiles. When you run the installer on a new Mac, all skills are immediately available.
-
-**Custom Skills:**
-- `ray-skill` - Ray debugging integration
-- `fix-github-issue` - GitHub issue automation
-- `convert-issue-to-discussion` - GitHub workflow helpers
-
-**Community Skills:**
-- `vercel-labs/agent-skills` - Web design guidelines and React best practices
-- `anthropics/skills` - Frontend design and skill creation tools
-- `vercel-labs/agent-browser` - Browser automation
-- `expo/skills` - React Native with Expo
-- `callstackincubator/agent-skills` - React Native performance
-- `coreyhaines31/marketingskills` - Copywriting and programmatic SEO
-- `copy-editing` - Marketing copy editing
-- `copywriting` - Marketing copywriting
-- `frontend-design` - Frontend design patterns
-- `pdf` - PDF manipulation
-- `seo-audit` - SEO auditing
-- `web-design-guidelines` - Web design best practices
-
-### Adding New Skills
-
-```bash
-# Install a new skill (adds directly to your dotfiles)
-npx skills add <owner/repo>
-
-# Commit to version control
-cd ~/.dotfiles
-git add config/claude/skills/
-git commit -m "Add new skill"
-git push
-```
-
-Browse more skills at [skills.sh](https://skills.sh)
-
-### Agents (Version Controlled)
-
-All custom agents are stored in `config/claude/agents/` and version-controlled with your dotfiles. When you run the installer on a new Mac, all agents are immediately available.
-
-**Custom Agents:**
-- `laravel-simplifier` - Simplifies and refines PHP/Laravel code for clarity and maintainability
-- `laravel-debugger` - Diagnoses and fixes issues in Laravel applications
-- `laravel-feature-builder` - Implements new features in Laravel applications
-- `task-planner` - Breaks down complex tasks into actionable steps
-
----
-
-## Customization
-
-### Personal Aliases & Functions
-
-Create custom configurations that won't be committed:
+Shell config that you don't want committed:
 
 ```bash
 mkdir -p ~/.dotfiles-custom/shell
-vim ~/.dotfiles-custom/shell/.aliases
+# Then create any of:
+~/.dotfiles-custom/shell/.aliases
+~/.dotfiles-custom/shell/.functions
+~/.dotfiles-custom/shell/.exports
+~/.dotfiles-custom/shell/.zshrc
 ```
 
-These files are automatically loaded by `.zshrc` if they exist.
+These are sourced by `.zshrc` if they exist.
 
-### Project-Specific Variables
+---
 
-Use `direnv` for automatic environment loading:
+## Key Aliases
 
 ```bash
-cd my-project
-echo 'export DEBUG=true' > .envrc
-direnv allow
+# Laravel
+a           # php artisan
+p           # ./vendor/bin/pest
+c           # composer
+mfs         # migrate:fresh --seed
+tinker      # php artisan tinker
+
+# npm / Vite
+nr          # npm run
+nrd         # npm run dev
+nrb         # npm run build
+
+# Git
+nah         # git reset --hard; git clean -df
+gst         # git status
+gl          # git log (pretty)
 ```
 
-Variables load when you enter the directory and unload when you leave.
+---
+
+## Agnoster Theme
+
+Custom theme stored in `oh-my-zsh-custom/themes/agnoster.zsh-theme`.
+
+**Git status symbols:**
+- `✚` — staged changes
+- `•` — unstaged changes
+- Yellow background — uncommitted changes
+- Green background — clean
+
+Requires a font with Powerline glyphs (e.g. a Nerd Font). Set your terminal font in VS Code's `terminal.integrated.fontFamily`.
 
 ---
 
-## Post-Installation
+## Claude Code Skills
 
-1. **Restore settings** (optional): Run `mackup restore` if you have backups
+Stored in `config/claude/skills/` — available in every project automatically.
 
-2. **Migrate history** (upgrading only): Run `migration/migrate-z-to-zoxide.sh` if you have `~/.z`
-
----
-
-## Tool Comparisons
-
-| Old Tool | New Tool | Why Better |
-|----------|----------|------------|
-| z.sh / autojump | zoxide | Smarter frecency algorithm, Rust speed |
-| nvm | fnm | 40x faster, simpler, Rust-based |
-| cat | bat | Syntax highlighting, git integration |
-| ls | eza | Icons, tree view, git status |
-| grep | ripgrep | 5-10x faster, respects .gitignore |
-| find | fd | Simpler syntax, 10x faster |
-| diff | delta | Side-by-side diffs, syntax highlighting |
-| htop | bottom | Better UI, graphs, Rust-based |
+| Skill | Purpose |
+|-------|---------|
+| `php-guidelines-from-spatie` | Spatie PHP/Laravel coding standards |
+| `ray-skill` | Ray debugging integration |
+| `fix-github-issue` | GitHub issue automation |
+| `context7-auto-research` | Auto-fetch library docs via Context7 |
+| `agent-browser` | Browser automation |
+| `review-pr` | PR review workflow |
+| `frontend-design` | Frontend design patterns |
+| `web-design-guidelines` | Web design best practices |
+| `pdf` | PDF manipulation |
+| `flare` | Flare error tracking integration |
+| `spatie-package-skeleton` | Scaffold new Spatie packages |
 
 ---
 
-## Utilities
+## Claude Code Agents
 
-The `bin/` directory contains helper scripts:
+Stored in `config/claude/agents/`:
 
-- **install** - Main installation script (idempotent, safe to re-run)
-- **install-claude-code** - Standalone Claude Code installer
-- **update** - Update dotfiles, Homebrew, npm, and Composer packages
-- **doctor** - Health check and diagnostic tool
-
----
-
-## Migration Notes
-
-If upgrading from an older setup:
-
-1. **Directory history**: Run `migration/migrate-z-to-zoxide.sh` to import your `~/.z` data
-2. **Prompt**: The default is now Oh My Zsh with custom agnoster theme
-3. **Version managers**:
-   - fnm replaces nvm for Node.js
-   - Homebrew manages PHP/Composer (no more compilation or mise)
-4. **Terminal**: Ghostty replaces iTerm2 (config symlinked from dotfiles)
-5. **Claude Code Skills**: Now version-controlled in `config/claude/skills/` and symlinked to `~/.claude/skills`
-6. **Claude Code Agents**: Now version-controlled in `config/claude/agents/` and symlinked to `~/.claude/agents`
-7. **Custom Theme**: Custom agnoster theme stored in `oh-my-zsh-custom/themes/`
+| Agent | Purpose |
+|-------|---------|
+| `laravel-feature-builder` | Full feature implementation (models, controllers, migrations, views) |
 
 ---
 
 ## Credits
 
-Created by [Freek Van der Herten](https://github.com/freekmurze). Used by many at [Spatie](https://spatie.be).
-
-See `config/Brewfile` for complete package list.
+Original dotfiles by [Freek Van der Herten](https://github.com/freekmurze) / [Spatie](https://spatie.be).

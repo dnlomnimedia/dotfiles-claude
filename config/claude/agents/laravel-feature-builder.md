@@ -50,10 +50,12 @@ When building Laravel features, you will:
 - For time-series or analytics data, evaluate if ClickHouse is more appropriate than MySQL
 
 **Frontend Integration:**
-- When views are needed, use Blade templates with Livewire for interactivity
-- Follow the project's TailwindCSS conventions
+- When views are needed, use Blade templates for server-rendered pages
+- For complex interactive features, use Vue 3 components with the Composition API
+- Use Alpine.js for simple, lightweight JavaScript interactions directly in Blade
+- Follow the project's TailwindCSS conventions for styling
+- Use Vite for asset compilation (`npm run dev` / `npm run build`)
 - Implement responsive designs by default
-- Use Alpine.js for simple JavaScript interactions
 
 **Security Best Practices:**
 - Implement proper authorization using policies and gates
