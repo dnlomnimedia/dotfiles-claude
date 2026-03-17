@@ -135,6 +135,126 @@ gl          # git log (pretty)
 
 ---
 
+## Daily Usage
+
+### Laravel / PHP
+
+```bash
+a                           # php artisan
+a migrate                   # php artisan migrate
+a tinker                    # php artisan tinker
+mfs                         # php artisan migrate:fresh --seed
+
+p                           # run Pest or PHPUnit (auto-detects)
+p --filter=UserTest         # run a specific test file
+pf "creates a user"         # run tests matching a name
+
+phpunit                     # vendor/bin/phpunit (explicit)
+pp                          # php artisan test --parallel
+
+ci                          # composer install
+cu                          # composer update
+cr vendor/package           # composer require
+cda                         # composer dump-autoload -o
+
+scheduler                   # run artisan schedule:run in a 60s loop
+```
+
+### Database (MySQL in container)
+
+```bash
+db list                     # show all databases
+db create mydb              # create a database
+db drop mydb                # drop a database
+db refresh mydb             # drop + recreate in one step
+
+flush-redis                 # redis-cli FLUSHALL
+```
+
+The `db` function connects to `$DB_HOST` (defaults to `db` — the Docker Compose service name).
+
+### Git
+
+```bash
+commit                      # stage everything + generate commit message via Claude
+commit "my message"         # stage everything + commit with given message
+uncommit                    # undo last commit, keep changes staged (git reset --soft HEAD~1)
+nah                         # nuclear reset — discard all uncommitted changes
+gpo branch-name             # git push origin branch-name
+git-prune-local             # delete local branches whose remote is gone
+```
+
+### JavaScript / npm
+
+```bash
+nr script-name              # npm run
+nrd                         # npm run dev
+nrb                         # npm run build
+jest                        # ./node_modules/.bin/jest
+```
+
+### Claude Code
+
+```bash
+c                           # claude (standard mode)
+cy                          # claude --dangerously-skip-permissions (skip all prompts)
+```
+
+### Navigation
+
+```bash
+z project-name              # jump to a frecently used directory
+zi                          # interactive directory picker (fzf)
+mkd new-dir                 # mkdir -p + cd in one step
+
+Ctrl+R                      # fuzzy search command history
+Ctrl+T                      # fuzzy find files in current directory
+Alt+C                       # fuzzy change directory
+```
+
+Zoxide learns from your `cd` usage. The more you visit a directory, the higher it ranks. `z` matches against the full path, so `z mid` could jump to `~/projects/middleware` if you've been there recently.
+
+### File Browsing
+
+```bash
+ls                          # eza with icons, directories first
+ll                          # eza long list with icons
+l                           # eza long list with hidden files and hyperlinks
+lt                          # eza tree view, 2 levels deep
+cat file.php                # bat with syntax highlighting (aliased)
+grep pattern                # ripgrep (aliased, respects .gitignore)
+```
+
+### Utilities
+
+```bash
+clone owner/repo            # gh repo clone (shorthand)
+digga example.com           # all DNS records for a domain
+removehost hostname         # remove a host from ~/.ssh/known_hosts
+ip                          # show your current public IP
+```
+
+### Zsh Autosuggestions
+
+As you type, grey suggestions appear based on history. Press `→` (right arrow) to accept the full suggestion, or `Alt+→` to accept one word at a time.
+
+### Local Overrides
+
+Shell config you don't want committed:
+
+```bash
+mkdir -p ~/.dotfiles-custom/shell
+# Create any of:
+~/.dotfiles-custom/shell/.aliases
+~/.dotfiles-custom/shell/.functions
+~/.dotfiles-custom/shell/.exports
+~/.dotfiles-custom/shell/.zshrc
+```
+
+These are sourced automatically by `.zshrc` if they exist.
+
+---
+
 ## Agnoster Theme
 
 Custom theme stored in `oh-my-zsh-custom/themes/agnoster.zsh-theme`.
