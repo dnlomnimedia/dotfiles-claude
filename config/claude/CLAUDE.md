@@ -10,6 +10,10 @@ Do not use emojis.
 
 When working with Laravel/PHP projects, always activate the `php-guidelines-from-spatie` skill.
 
+## Personal Guidelines
+
+@global/feature-flags.md
+
 ## Using GitHub
 
 Use the `gh` tool for all GitHub interactions.

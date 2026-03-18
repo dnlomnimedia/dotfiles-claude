@@ -57,6 +57,12 @@ if [ -f "$DOTFILES_DIR/config/claude/statusline.sh" ]; then
     echo "  installed statusline.sh"
 fi
 
+# Global reference files (imported by CLAUDE.md via @global/filename)
+if [ -d "$DOTFILES_DIR/config/claude/global" ]; then
+    ln -sf "$DOTFILES_DIR/config/claude/global" "$CLAUDE_DIR/global"
+    echo "  linked global/"
+fi
+
 # Agents
 for agent in "$DOTFILES_DIR/config/claude/agents/"*.md; do
     [ -f "$agent" ] || continue
